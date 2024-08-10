@@ -3,10 +3,14 @@ package com.example.swipe;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PointF;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
+
+import com.example.swipe.entities.Player;
 
 import java.util.Random;
 
@@ -16,6 +20,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private GameLoop gameLoop;
     private Random rand = new Random();
 
+    private Player player;
+
     public GamePanel(Context context) {
         super(context);
         holder = getHolder();
@@ -23,19 +29,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         gameLoop = new GameLoop(this);
 
+        player = new Player();
     }
 
     public void render() {
         Canvas c = holder.lockCanvas();
         c.drawColor(Color.BLACK);
 
-
+        player.draw(c);
 
         holder.unlockCanvasAndPost(c);
     }
 
     public void update(double delta) {
+        player.update(delta);
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            PointF directionVel = new PointF(
+                    event.getX() - player.getPos().x,
+                    event.getY() - player.getPos().y);
+            player.push(directionVel);
+        }
+        return true;
     }
 
     @Override
