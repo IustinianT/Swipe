@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import com.example.swipe.entities.Enemy;
 import com.example.swipe.entities.Player;
 
 import java.util.Random;
@@ -21,6 +22,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private Random rand = new Random();
 
     private Player player;
+    private Operator operator;
 
     public GamePanel(Context context) {
         super(context);
@@ -30,18 +32,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         gameLoop = new GameLoop(this);
 
         player = new Player();
+        operator = new Operator();
     }
 
     public void render() {
         Canvas c = holder.lockCanvas();
         c.drawColor(Color.BLACK);
 
+        operator.drawEnemies(c);
         player.draw(c);
 
         holder.unlockCanvasAndPost(c);
     }
 
     public void update(double delta) {
+        operator.updateEnemies(delta);
         player.update(delta);
     }
 
@@ -52,6 +57,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     event.getX() - player.getPos().x,
                     event.getY() - player.getPos().y);
             player.push(directionVel);
+
+            if (operator.getEnemies().size() < Operator.MAX_ENEMIES) {
+                operator.addEnemy(new Enemy());
+            }
         }
         return true;
     }
