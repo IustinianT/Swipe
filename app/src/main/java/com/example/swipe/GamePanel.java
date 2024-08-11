@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.example.swipe.entities.Enemy;
 import com.example.swipe.entities.Player;
+import com.example.swipe.inputs.TouchEvents;
 
 import java.util.Random;
 
@@ -24,6 +25,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private Player player;
     private Operator operator;
 
+    private TouchEvents touchEvents;
+
     public GamePanel(Context context) {
         super(context);
         holder = getHolder();
@@ -33,6 +36,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         player = new Player();
         operator = new Operator();
+
+        touchEvents = new TouchEvents(player);
     }
 
     public void render() {
@@ -41,6 +46,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         operator.drawEnemies(c);
         player.draw(c);
+        touchEvents.draw(c);
 
         holder.unlockCanvasAndPost(c);
     }
@@ -53,15 +59,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_UP) {
-            PointF directionVel = new PointF(
-                    event.getX() - player.getPos().x,
-                    event.getY() - player.getPos().y);
-            player.push(directionVel);
-
             if (operator.getEnemies().size() < Operator.MAX_ENEMIES) {
                 operator.addEnemy(new Enemy());
             }
         }
+        touchEvents.touchEvent(event);
         return true;
     }
 
