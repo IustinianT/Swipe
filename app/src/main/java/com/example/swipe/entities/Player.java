@@ -8,6 +8,7 @@ import android.graphics.PointF;
 public class Player extends Entity{
 
     public Player() {
+        // TODO: move constant values to a different file/enum/class
         position = new PointF(500, 500);
         velocity = new PointF(0, 0);
 

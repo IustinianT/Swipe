@@ -15,6 +15,7 @@ public class Enemy extends Entity{
     public static float MOVE_INTERVAL = 1.5f;
 
     public Enemy() {
+        // TODO: move constant values to a different file/enum/class
         position = new PointF(
                 rand.nextInt(MainActivity.GAME_WIDTH),
                 rand.nextInt(MainActivity.GAME_HEIGHT));
@@ -38,11 +39,19 @@ public class Enemy extends Entity{
         if (rand.nextInt(2) == 1) horizontal = -1; else horizontal = 1;
         if (rand.nextInt(2) == 1) vertical = -1; else vertical = 1;
 
+        // TODO: if NOT selectedDirection: call select direction method
+
         if ((System.currentTimeMillis() - lastMoved) / 1000 > MOVE_INTERVAL) {
             push(new PointF(
                     rand.nextInt(MainActivity.GAME_WIDTH)*horizontal,
                     rand.nextInt(MainActivity.GAME_HEIGHT)*vertical));
             lastMoved = System.currentTimeMillis();
+            // TODO: selectedDirection = false;
         }
+        // TODO: decide direction of enemy and draw line towards that direction
     }
+
+    /* TODO: make function to randomly select direction and velocity and return a new PointF
+        and set selectedDirection to true
+    */
 }
