@@ -3,9 +3,7 @@ package com.example.swipe;
 import android.graphics.Canvas;
 
 import com.example.swipe.entities.Enemy;
-import com.example.swipe.entities.Entity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Operator {
@@ -13,8 +11,8 @@ public class Operator {
     private ArrayList<Enemy> enemies;
     private long lastSpawn;
 
-    public static int MAX_ENEMIES = 5;
-    public static int ENEMY_SPAWN_INTERVAL = 5;
+    public static int MAX_ENEMIES = 7;
+    public static float ENEMY_SPAWN_INTERVAL = 0.8f;
 
     public Operator() {
         enemies = new ArrayList<>();
@@ -54,5 +52,9 @@ public class Operator {
         for (Enemy enemy : enemies) {
             enemy.draw(c);
         }
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
     }
 }

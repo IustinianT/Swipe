@@ -55,6 +55,17 @@ public abstract class Entity {
         velocity.y *= (1 - friction * delta * 60);
     }
 
+    public boolean collidesWith(Entity entity) {
+        double a = Math.pow(position.x - entity.position.x, 2);
+        double b = Math.pow(position.y - entity.position.y, 2);
+        double distance = Math.sqrt(a + b);
+
+        if (distance <= (radius + entity.radius)) {
+            return true;
+        }
+        return false;
+    }
+
     public void push(PointF velocity) {
         this.velocity = velocity;
     }
@@ -66,4 +77,6 @@ public abstract class Entity {
     public PointF getPos() {
         return position;
     }
+
+    public PointF getVelocity() { return velocity; }
 }

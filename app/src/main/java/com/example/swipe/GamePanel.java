@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 
 import com.example.swipe.entities.Enemy;
+import com.example.swipe.entities.Entity;
 import com.example.swipe.entities.Player;
 import com.example.swipe.inputs.TouchEvents;
 
@@ -26,6 +27,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private Operator operator;
 
     private TouchEvents touchEvents;
+    private CollisionHandler collisionHandler;
 
     public GamePanel(Context context) {
         super(context);
@@ -38,6 +40,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         operator = new Operator();
 
         touchEvents = new TouchEvents(player);
+        collisionHandler = new CollisionHandler(operator, player);
     }
 
     public void render() {
@@ -55,6 +58,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         operator.handleSpawn();
         operator.updateEnemies(delta);
         player.update(delta);
+
+        collisionHandler.checkAndHandleCollisions();
     }
 
     @Override
