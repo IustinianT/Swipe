@@ -52,19 +52,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(double delta) {
+        operator.handleSpawn();
         operator.updateEnemies(delta);
         player.update(delta);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_UP) {
-            if (operator.getEnemies().size() < Operator.MAX_ENEMIES) {
-                operator.addEnemy(new Enemy());
-            }
-        }
-        touchEvents.touchEvent(event);
-        return true;
+        return touchEvents.touchEvent(event);
     }
 
     @Override
