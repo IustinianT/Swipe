@@ -50,8 +50,9 @@ public abstract class Entity {
         position.x += velocity.x * delta * impulseMultiplier;
         position.y += velocity.y * delta * impulseMultiplier;
 
-        velocity.x *= (1 - friction - delta);
-        velocity.y *= (1 - friction - delta);
+        // high fps -> delta = low
+        velocity.x *= (1 - friction * delta * 60);
+        velocity.y *= (1 - friction * delta * 60);
     }
 
     public void push(PointF velocity) {
